@@ -1,0 +1,80 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Counterfactual Simulation</title>
+<link href="./files/style.css" rel="stylesheet">
+<script type="text/javascript" src="./files/jquery.mlens-1.0.min.js"></script> 
+<script type="text/javascript" src="./files/jquery.js"></script>
+</head>
+
+<body>
+<div class="content">
+  <h1><strong>Finding Differences Between Transformers and ConvNets Using Counterfactual Simulation Testing</strong></h1>
+  <p id="authors"><span><a href="https://natanielruiz.github.io/"></a></span><a href="https://natanielruiz.github.io/">Nataniel Ruiz</a	> <a href="https://cs-people.bu.edu/sbargal/">Sarah Adel Bargal</a> <a href="https://cihangxie.github.io">Cihang Xie</a> <a href="https://www.bu.edu/cs/profiles/saenko/">Kate Saenko</a> <a href="https://www.cs.bu.edu/fac/sclaroff/">Stan Sclaroff</a> <br>
+    <br>
+  <span style="font-size: 24px">Boston University - Georgetown University - UC Santa Cruz - MIT-IBM Watson AI Lab
+  </span></p>
+  <br>
+  <img src="./files/spotlight.png" class="teaser-gif" style="width:100%;"><br>
+  <h3 style="text-align:center"><em>It’s like a photo booth, but once the subject is captured, it can be synthesized wherever your dreams take you…</em></h3>
+    <font size="+2">
+          <p style="text-align: center;">
+            <a href="https://natanielruiz.github.io/docs/counterfactual_simulation_testing.pdf" target="_blank">[Paper]</a> &nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="files/bibtex.txt" target="_blank">[BibTeX]</a> &nbsp;&nbsp;&nbsp;&nbsp;
+            [Dataset (soon)] &nbsp;&nbsp;&nbsp;&nbsp;
+            [Code (soon)] &nbsp;&nbsp;&nbsp;&nbsp;
+          </p>
+    </font>
+</div>
+<div class="content">
+  <h2 style="text-align:center;">Abstract</h2>
+  <p>Modern deep neural networks tend to be evaluated on static test sets making it hard to evaluate for robustness issues with respect to specific scene variations (e.g. object scale, object pose, scene lighting and 3D occlusions). Collecting real datasets with fine-grained naturalistic variations of sufficient scale can be extremely time-consuming and expensive. In our work, we present <b>Counterfactual Simulation Testing</b>, a framework that allows us to study the robustness of neural networks with respect to some of these naturalistic variations by building realistic synthetic scenes that allow us to ask <i>counterfactual questions</i> to the models, ultimately providing answers to questions such as "Would your classification still be correct if the object were viewed from the top?" or "Would your classification still be correct if the object were partially occluded by another object?". Our method allows for a fair comparison of the robustness of recently released, state-of-the-art Convolutional Neural Networks and Vision Transformers, with respect to these naturalistic variations. We find evidence that ConvNext is more robust to pose and scale variations than Swin, that ConvNext generalizes better to our simulated domain and that Swin handles partial occlusion better than ConvNext. We also find that robustness for all networks improves with network scale and with data scale and variety. We release the Naturalistic Variation Object Dataset (NVD), a large simulated dataset of 272k images of everyday objects with naturalistic variations such as object pose, scale, viewpoint, lighting and occlusions.</p>
+</div>
+<div class="content">
+  <h2>Naturalistic Variation Object Dataset (NVD)</h2>
+  <p> We release NVD, a dataset containing 272k images of 92 object models with 27 HDRI skybox lighting environments in a kitchen scene with 5 subsets of naturalistic scene variations: object pose, object scale, 360° panoramic camera rotation, top-to-frontal object view and occlusion with different objects. We hope that this dataset will allow for the study of generalization and robustness of modern neural networks.</p>
+  <br>
+  <img class="summary-img" src="./files/variations.png" style="width:100%;"> <br>
+</div>
+<div class="content">
+  <h2>Counterfactual Simulation Testing</h2>
+  <p> Our proposed method of counterfactual simulation testing allows us to ask counterfactual questions to networks such as “Would your answer still be correct if I rotated the object by 60 degrees?” by simply (1) simulating a scene with the object of interest, testing both networks on that scene and (2) simulating a modified scene with a naturalistic variation, re-testing the networks and comparing the results. Our main metric is the proportion of conserved correct predictions, or PCCP. In essence, PCCP counts how many <i>initial correct classifier prediction</i> are <i>still correct</i> after we modify the scene/object in a specific manner. This metric is then averaged over different objects and scene lighting. This allows us to robustly compare two very different networks, by comparing their PCCP curves which tell us how robust the networks are to specific variations that we want to study (e.g. object size, object pose, etc.).
+  </p>
+  <br>
+  <img class="summary-img" src="./files/method.png" style="width:100%;"> <br>
+</div>
+<div class="content">
+  <h2>Results and Conclusions</h2>
+  <p><b>ConvNext and Swin are fragile with respect to naturalistic variations</b> <br>
+    For all five scene variations in our work, we see sharp drops in PCCP for both ConvNext and Swin networks of all sizes.</p>
+  <br>
+  <img class="summary-img" src="./files/robustness.png" style="width:100%;"> <br>
+  <p><b>Robustness improves when networks get bigger and with more data and data variety</b> <br>
+    When we increase network size and train using ImageNet-22k instead of ImageNet-1k we see an increase in robustness (corresponding to flatter PCCP curves).</p>
+  <br>
+  <img class="summary-img" src="./files/size.png" style="width:100%;"> <br>
+  <p><b>ConvNext is, on average, more robust to different object poses</b> <br>
+    ConvNext networks have, on average, higher conserved correct predictions than Swin networks for object rotations and viewpoint changes.</p>
+  <br>
+  <img class="summary-img" src="./files/object_pose.png" style="width:100%;"> <br>
+  <p><b>Swin is, on average, more robust to occlusion</b>
+    Swin Transformers are more robust to random patch drops when information loss is high - and on average more robust to occlusion by objects in NVD.</p>
+  <br>
+  <img class="summary-img" src="./files/occlusion.png" style="width:100%;"> <br>
+</div>
+<!-- <div class="content">
+  <h2>BibTex</h2>
+  <code> @article{ruiz2022dreambooth,<br>
+  &nbsp;&nbsp;title={DreamBooth: Fine Tuning Text-to-image Diffusion Models for Subject-Driven Generation},<br>
+  &nbsp;&nbsp;author={Ruiz, Nataniel and Li, Yuanzhen and Jampani, Varun and Pritch, Yael and Rubinstein, Michael and Aberman, Kfir},<br>
+  &nbsp;&nbsp;booktitle={arXiv preprint arxiv:2208.12242},<br>
+  &nbsp;&nbsp;year={2022}<br>
+  } </code> 
+</div> -->
+<div class="content" id="acknowledgements">
+  <p><strong>Acknowledgements</strong>:
+    We deeply thank Jeremy Schwartz and Seth Alter for their advice and support on the ThreeDWorld (TDW) simulation platform. 
+  </p>
+</div>
+</body>
+</html>
